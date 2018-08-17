@@ -1,0 +1,35 @@
+---
+jobs:
+- name: build-iplayer-docker-image
+  public: true
+  serial: true
+  plan:
+  - get: iplayer-repo
+    trigger: true
+  - get: docker-image-repo
+  - put: docker-image
+    params:
+      build: docker-image-repo
+
+resources:
+
+- name: iplayer-repo
+  type: git
+  source:
+    uri: https://github.com/get-iplayer/get_iplayer
+    tag_filter: v*.**
+    branch: master
+
+- name: docker-image-repo
+  type: git
+  source:
+    uri: https://github.com/danhigham/get-iplayer-docker.git
+    branch: master
+
+- name: docker-image
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: {{docker-hub-username}}
+    password: {{docker-hub-password}}
+    repository: {{docker-hub-repo}}
