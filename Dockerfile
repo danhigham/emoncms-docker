@@ -24,16 +24,10 @@ COPY php.ini /usr/local/etc/php/
 # Copy in emoncms files, files can be mounted from local FS for dev see docker-compose
 # ADD ./emoncms /var/www/html
 
-COPY -R /tmp/build/put/emoncms-repo/* /var/www/html
-COPY -R /tmp/build/put/emoncms-dashboard-repo/* /var/www/html/dashboard
-COPY -R /tmp/build/put/emoncms-graph-repo/* /var/www/html/graph
-COPY -R /tmp/build/put/emoncms-app-repo/* /var/www/html/app
-
-# Clone in master Emoncms repo & modules - overwritten in development with local FS files
-RUN git clone https://github.com/emoncms/emoncms.git /var/www/html
-RUN git clone https://github.com/emoncms/dashboard.git /var/www/html/Modules/dashboard
-RUN git clone https://github.com/emoncms/graph.git /var/www/html/Modules/graph
-RUN git clone https://github.com/emoncms/app.git /var/www/html/Modules/app
+COPY /tmp/build/put/emoncms-repo /var/www/html
+COPY /tmp/build/put/emoncms-dashboard-repo /var/www/html/dashboard
+COPY /tmp/build/put/emoncms-graph-repo /var/www/html/graph
+COPY /tmp/build/put/emoncms-app-repo /var/www/html/app
 
 COPY docker.settings.php /var/www/html/settings.php
 
